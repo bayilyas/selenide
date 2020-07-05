@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.regex.Pattern;
@@ -25,11 +26,11 @@ public class CdpClient {
   private static final Logger log = LoggerFactory.getLogger(CdpClient.class);
   private static final Pattern REGEX_ENCODE_FOR_JSON = Pattern.compile("\"", Pattern.LITERAL);
 
-  public void setDownloadsFolder(DriverService driverService, RemoteWebDriver driver, String downloadsFolder) {
+  public void setDownloadsFolder(DriverService driverService, RemoteWebDriver driver, File downloadsFolder) {
     setDownloadsFolder(driverService.getUrl(), driver.getSessionId(), downloadsFolder);
   }
 
-  public void setDownloadsFolder(URL remoteDriverUrl, SessionId driverSessionId, String downloadsFolder) {
+  public void setDownloadsFolder(URL remoteDriverUrl, SessionId driverSessionId, File downloadsFolder) {
     try {
       String command = command(downloadsFolder);
       post(remoteDriverUrl, driverSessionId, command);
@@ -43,12 +44,12 @@ public class CdpClient {
 
   @CheckReturnValue
   @Nonnull
-  private String command(String downloadsFolder) {
+  private String command(File downloadsFolder) {
     return "{" +
         "  \"cmd\": \"Page.setDownloadBehavior\",\n" +
         "  \"params\": {\n" +
         "    \"behavior\": \"allow\", \n" +
-        "    \"downloadPath\": \"" + escapeForJson(downloadsFolder) + "\"\n" +
+        "    \"downloadPath\": \"" + escapeForJson(downloadsFolder.getAbsolutePath()) + "\"\n" +
         "  }\n" +
         "}";
   }

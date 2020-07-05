@@ -53,9 +53,9 @@ public class SelenideDriver {
     this.driver = driver;
   }
 
-  public SelenideDriver(Config config, WebDriver webDriver, @Nullable SelenideProxyServer selenideProxy) {
+  public SelenideDriver(Config config, WebDriver webDriver, @Nullable SelenideProxyServer selenideProxy, File browserDownloadsFolder) {
     this.config = config;
-    this.driver = new WebDriverWrapper(config, webDriver, selenideProxy);
+    this.driver = new WebDriverWrapper(config, webDriver, selenideProxy, browserDownloadsFolder);
   }
 
   @CheckReturnValue
