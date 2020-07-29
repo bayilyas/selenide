@@ -35,7 +35,7 @@ import static java.util.Collections.emptyList;
 @ParametersAreNonnullByDefault
 public class SelenideDriver {
   private static final Navigator navigator = new Navigator();
-  private static ScreenShotLaboratory screenshots = ScreenShotLaboratory.getInstance();
+  private static final ScreenShotLaboratory screenshots = ScreenShotLaboratory.getInstance();
 
   private final Config config;
   private final Driver driver;
@@ -51,6 +51,11 @@ public class SelenideDriver {
   public SelenideDriver(Config config, Driver driver) {
     this.config = config;
     this.driver = driver;
+  }
+
+  public SelenideDriver(Config config, WebDriver webDriver, @Nullable SelenideProxyServer selenideProxy) {
+    this.config = config;
+    this.driver = new WebDriverWrapper(config, webDriver, selenideProxy, new File(config.downloadsFolder()));
   }
 
   public SelenideDriver(Config config, WebDriver webDriver, @Nullable SelenideProxyServer selenideProxy, File browserDownloadsFolder) {
