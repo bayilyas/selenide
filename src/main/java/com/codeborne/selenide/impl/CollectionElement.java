@@ -89,7 +89,7 @@ public class CollectionElement extends WebElementSource {
   @Nonnull
   public String toString() {
     if (this.stepName != null)
-      return String.format("\"%s\" index %d (%s)", this.stepName, index, collection.description());
+      return String.format("%s index %d, locator: %s", this.stepName, index, collection.description());
     else
       return getSearchCriteria();
   }

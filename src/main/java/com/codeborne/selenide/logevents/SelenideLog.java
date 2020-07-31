@@ -81,6 +81,6 @@ public class SelenideLog implements LogEvent {
       //return String.format("$(\"%s\") %s", element, subject);
       return String.format("%s %s", element, subject);
     else
-      return String.format("\"%s\" %s (%s)", this.stepName, subject, element);
+      return String.format("%s %s, locator: %s", this.stepName, subject, element);
   }
 }

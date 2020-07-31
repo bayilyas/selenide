@@ -25,8 +25,9 @@ public class SelenideLogger {
 
   /**
    * Add a listener (to the current thread).
-   * @param name unique name of this listener (per thread).
-   *             Can be used later to remove listener using method {@link #removeListener(String)}
+   *
+   * @param name     unique name of this listener (per thread).
+   *                 Can be used later to remove listener using method {@link #removeListener(String)}
    * @param listener event listener
    */
   public static void addListener(String name, LogEventListener listener) {
@@ -62,8 +63,8 @@ public class SelenideLogger {
   @Nonnull
   static String readableArguments(@Nullable Object... args) {
     return args == null ? "" :
-        (args[0] instanceof Object[]) ? arrayToString((Object[]) args[0]) :
-            arrayToString(args);
+      (args[0] instanceof Object[]) ? arrayToString((Object[]) args[0]) :
+        arrayToString(args);
   }
 
   @CheckReturnValue
@@ -81,8 +82,7 @@ public class SelenideLogger {
     for (LogEventListener listener : listeners) {
       try {
         listener.beforeEvent(log);
-      }
-      catch (RuntimeException e) {
+      } catch (RuntimeException e) {
         LOG.error("Failed to call listener {}", listener, e);
       }
     }
@@ -98,8 +98,7 @@ public class SelenideLogger {
     for (LogEventListener listener : listeners) {
       try {
         listener.beforeEvent(log);
-      }
-      catch (RuntimeException e) {
+      } catch (RuntimeException e) {
         LOG.error("Failed to call listener {}", listener, e);
       }
     }
@@ -118,8 +117,7 @@ public class SelenideLogger {
     for (LogEventListener listener : listeners) {
       try {
         listener.afterEvent(log);
-      }
-      catch (RuntimeException e) {
+      } catch (RuntimeException e) {
         LOG.error("Failed to call listener {}", listener, e);
       }
     }
@@ -136,8 +134,10 @@ public class SelenideLogger {
 
   /**
    * Remove listener (from the current thread).
+   *
    * @param name unique name of listener added by method {@link #addListener(String, LogEventListener)}
-   * @param <T> class of listener to be returned
+   * @param <T>  class of listener to be returned
+   *
    * @return the listener being removed
    */
   @SuppressWarnings("unchecked")
@@ -155,8 +155,9 @@ public class SelenideLogger {
    * If listener with given name is bound (added) to the current thread.
    *
    * @param name unique name of listener added by method {@link #addListener(String, LogEventListener)}
+   *
    * @return true if method {@link #addListener(String, LogEventListener)} with
-   *              corresponding name has been called in current thread.
+   * corresponding name has been called in current thread.
    */
   public static boolean hasListener(String name) {
     Map<String, LogEventListener> listeners = SelenideLogger.listeners.get();

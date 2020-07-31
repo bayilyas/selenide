@@ -1,0 +1,35 @@
+jar {
+  manifest {
+    attributes(
+      "Automatic-Module-Name": project.group + '.' + project.name,
+      "Implementation-Title": project.group + '.' + project.name,
+      "Implementation-Version": version,
+      "Implementation-Vendor": "IB"
+    )
+  }
+  from sourceSets.main.output
+  from sourceSets.staticFacade.output
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+  from sourceSets.staticFacade.allSource
+}
+
+javadoc {
+  failOnError = false
+  source = sourceSets.main.allJava + sourceSets.staticFacade.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+
+artifacts {
+  archives jar
+  archives sourcesJar
+  archives javadocJar
+}
+

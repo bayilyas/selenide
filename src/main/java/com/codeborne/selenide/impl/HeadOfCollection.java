@@ -37,7 +37,10 @@ public class HeadOfCollection implements WebElementsCollection {
   @CheckReturnValue
   @Nonnull
   public String description() {
-    return originalCollection.description() + ".first(" + size + ')';
+    if (this.getStepName().isEmpty())
+      return originalCollection.description() + ".first(" + size + ")";
+    else
+      return String.format("%s (locator: %s) first(%d)", this.getStepName(), originalCollection.description(), size);
   }
 
   @Override

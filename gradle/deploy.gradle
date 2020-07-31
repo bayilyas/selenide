@@ -1,3 +1,4 @@
+/*
 jar {
   manifest {
     attributes(
@@ -109,3 +110,4 @@ if (project.hasProperty("signing.keyId")) {
     }
   }
 }
+*/

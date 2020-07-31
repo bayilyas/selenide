@@ -37,7 +37,7 @@ public class FilteringCollection implements WebElementsCollection {
     if (originalCollection.getStepName() == null)
       return originalCollection.description() + ".filter(" + filter + ')';
     else
-      return String.format("\"%s\"(%s) collection filter by \"%s\"", originalCollection.getStepName(), originalCollection.description(), filter);
+      return String.format("%s (locator: %s) filter by '%s'", originalCollection.getStepName(), originalCollection.description(), filter);
   }
 
   @Override
