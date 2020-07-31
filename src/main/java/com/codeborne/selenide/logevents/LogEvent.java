@@ -12,6 +12,7 @@ public interface LogEvent {
     IN_PROGRESS, PASS, FAIL
   }
 
+  String getStepName();
   String getElement();
   String getSubject();
   EventStatus getStatus();

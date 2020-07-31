@@ -53,6 +53,12 @@ public class ElementFinder extends WebElementSource {
 
   @CheckReturnValue
   @Nonnull
+  public static SelenideElement wrap(String stepName, Driver driver, @Nullable SearchContext parent, By criteria, int index) {
+    return wrap(stepName, driver, SelenideElement.class, parent, criteria, index);
+  }
+
+  @CheckReturnValue
+  @Nonnull
   @SuppressWarnings("unchecked")
   public static <T extends SelenideElement> T wrap(Driver driver,
                                                    Class<T> clazz,
@@ -65,12 +71,36 @@ public class ElementFinder extends WebElementSource {
       new SelenideElementProxy(new ElementFinder(driver, parent, criteria, index)));
   }
 
+  @CheckReturnValue
+  @Nonnull
+  @SuppressWarnings("unchecked")
+  public static <T extends SelenideElement> T wrap(String stepName,
+                                                   Driver driver,
+                                                   Class<T> clazz,
+                                                   @Nullable SearchContext parent,
+                                                   By criteria,
+                                                   int index) {
+    return (T) Proxy.newProxyInstance(
+      currentThread().getContextClassLoader(),
+      new Class<?>[]{clazz},
+      new SelenideElementProxy(new ElementFinder(stepName, driver, parent, criteria, index)));
+  }
+
   private final Driver driver;
   private final SearchContext parent;
   private final By criteria;
   private final int index;
+  private String stepName = null;
 
   ElementFinder(Driver driver, @Nullable SearchContext parent, By criteria, int index) {
+    this.driver = driver;
+    this.parent = parent;
+    this.criteria = criteria;
+    this.index = index;
+  }
+
+  ElementFinder(String stepName, Driver driver, @Nullable SearchContext parent, By criteria, int index) {
+    this.stepName = stepName;
     this.driver = driver;
     this.parent = parent;
     this.criteria = criteria;
@@ -82,8 +112,8 @@ public class ElementFinder extends WebElementSource {
   @Nonnull
   public SelenideElement find(SelenideElement proxy, Object arg, int index) {
     return arg instanceof By ?
-        wrap(driver, proxy, (By) arg, index) :
-        wrap(driver, proxy, By.cssSelector((String) arg), index);
+      wrap(driver, proxy, (By) arg, index) :
+      wrap(driver, proxy, By.cssSelector((String) arg), index);
   }
 
   @Override
@@ -98,8 +128,8 @@ public class ElementFinder extends WebElementSource {
   @Nonnull
   public WebElement getWebElement() throws NoSuchElementException, IndexOutOfBoundsException {
     return index == 0 ?
-        WebElementSelector.instance.findElement(driver, getSearchContext(), criteria) :
-        WebElementSelector.instance.findElements(driver, getSearchContext(), criteria).get(index);
+      WebElementSelector.instance.findElement(driver, getSearchContext(), criteria) :
+      WebElementSelector.instance.findElements(driver, getSearchContext(), criteria).get(index);
   }
 
   @Override
@@ -107,15 +137,15 @@ public class ElementFinder extends WebElementSource {
   @Nonnull
   public List<WebElement> findAll() throws NoSuchElementException, IndexOutOfBoundsException {
     return index == 0 ?
-        WebElementSelector.instance.findElements(driver(), getSearchContext(), criteria) :
-        super.findAll();
+      WebElementSelector.instance.findElements(driver(), getSearchContext(), criteria) :
+      super.findAll();
   }
 
   @CheckReturnValue
   @Nonnull
   private SearchContext getSearchContext() {
     return parent == null ? driver().getWebDriver() :
-        (parent instanceof SelenideElement) ? ((SelenideElement) parent).toWebElement() :
+      (parent instanceof SelenideElement) ? ((SelenideElement) parent).toWebElement() :
         parent;
   }
 
@@ -125,8 +155,7 @@ public class ElementFinder extends WebElementSource {
   public ElementNotFound createElementNotFoundError(Condition condition, Throwable lastError) {
     if (parent instanceof SelenideElement) {
       ((SelenideElement) parent).should(exist);
-    }
-    else if (parent instanceof WebElement) {
+    } else if (parent instanceof WebElement) {
       WebElementWrapper.wrap(driver(), (WebElement) parent).should(exist);
     }
 
@@ -138,14 +167,22 @@ public class ElementFinder extends WebElementSource {
   @Nonnull
   public String getSearchCriteria() {
     return index == 0 ?
-        Describe.selector(criteria) :
-        Describe.selector(criteria) + '[' + index + ']';
+      Describe.selector(criteria) :
+      Describe.selector(criteria) + '[' + index + ']';
+  }
+
+  @Override
+  public String getStepName() {
+    return this.stepName;
   }
 
   @Override
   @CheckReturnValue
   @Nonnull
   public String toString() {
-    return "{" + getSearchCriteria() + '}';
+    if (stepName.isEmpty())
+      return "{" + getSearchCriteria() + '}';
+    else
+      return stepName + " {" + getSearchCriteria() + '}';
   }
 }

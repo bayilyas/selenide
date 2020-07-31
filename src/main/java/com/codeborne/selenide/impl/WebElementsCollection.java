@@ -22,6 +22,9 @@ public interface WebElementsCollection {
   String description();
 
   @CheckReturnValue
+  String getStepName();
+
+  @CheckReturnValue
   @Nonnull
   Driver driver();
 }

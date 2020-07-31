@@ -61,6 +61,11 @@ public class CollectionElementByCondition extends WebElementSource {
   }
 
   @Override
+  public String getStepName() {
+    return collection.getStepName();
+  }
+
+  @Override
   @CheckReturnValue
   @Nonnull
   public String toString() {

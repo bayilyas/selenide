@@ -35,6 +35,11 @@ public class GetSelectedOptions implements Command<ElementsCollection> {
       }
 
       @Override
+      public String getStepName() {
+        return null;
+      }
+
+      @Override
       @CheckReturnValue
       @Nonnull
       public Driver driver() {

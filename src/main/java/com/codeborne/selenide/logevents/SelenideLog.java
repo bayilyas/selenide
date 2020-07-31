@@ -13,10 +13,19 @@ public class SelenideLog implements LogEvent {
   private long endNs;
   private final String subject;
   private final String element;
+  private final String stepName;
   private EventStatus status = IN_PROGRESS;
   private Throwable error;
 
   public SelenideLog(String element, String subject) {
+    this.stepName = null;
+    this.element = element;
+    this.subject = subject;
+    startNs = System.nanoTime();
+  }
+
+  public SelenideLog(@Nullable String stepName, String element, String subject) {
+    this.stepName = stepName;
     this.element = element;
     this.subject = subject;
     startNs = System.nanoTime();
@@ -26,6 +35,11 @@ public class SelenideLog implements LogEvent {
   @Nonnull
   public String getSubject() {
     return this.subject;
+  }
+
+  @Override
+  public String getStepName() {
+    return this.stepName;
   }
 
   @Override
@@ -63,6 +77,10 @@ public class SelenideLog implements LogEvent {
   @Override
   @Nonnull
   public String toString() {
-    return String.format("$(\"%s\") %s", element, subject);
+    if (this.stepName == null)
+      //return String.format("$(\"%s\") %s", element, subject);
+      return String.format("%s %s", element, subject);
+    else
+      return String.format("\"%s\" %s (%s)", this.stepName, subject, element);
   }
 }

@@ -14,8 +14,16 @@ import java.util.List;
 public class WebElementsCollectionWrapper implements WebElementsCollection {
   private final List<WebElement> elements;
   private final Driver driver;
+  private final String stepName;
 
   public WebElementsCollectionWrapper(Driver driver, Collection<? extends WebElement> elements) {
+    this.stepName = null;
+    this.driver = driver;
+    this.elements = new ArrayList<>(elements);
+  }
+
+  public WebElementsCollectionWrapper(String stepName, Driver driver, Collection<? extends WebElement> elements) {
+    this.stepName = stepName;
     this.driver = driver;
     this.elements = new ArrayList<>(elements);
   }
@@ -31,7 +39,15 @@ public class WebElementsCollectionWrapper implements WebElementsCollection {
   @CheckReturnValue
   @Nonnull
   public String description() {
-    return "$$(" + elements.size() + " elements)";
+    if (this.stepName == null)
+      return "$$(" + elements.size() + " elements)";
+    else
+      return this.stepName + " $$(" + elements.size() + " elements)";
+  }
+
+  @Override
+  public String getStepName() {
+    return this.stepName;
   }
 
   @Override

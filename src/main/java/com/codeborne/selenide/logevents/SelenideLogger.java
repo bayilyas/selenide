@@ -42,7 +42,14 @@ public class SelenideLogger {
   @CheckReturnValue
   @Nonnull
   public static SelenideLog beginStep(String source, String methodName, @Nullable Object... args) {
-    return beginStep(source, readableMethodName(methodName) + "(" + readableArguments(args) + ")");
+    return beginStep(null, source, readableMethodName(methodName) + " " + readableArguments(args));
+    //return beginStep(null, source, readableMethodName(methodName) + "(" + readableArguments(args) + ")");
+  }
+
+  @CheckReturnValue
+  @Nonnull
+  public static SelenideLog beginStep(@Nullable String stepName, String source, String methodName, @Nullable Object... args) {
+    return beginStep(stepName, source, readableMethodName(methodName) + " " + readableArguments(args));
   }
 
   @CheckReturnValue
@@ -63,6 +70,23 @@ public class SelenideLogger {
   @Nonnull
   private static String arrayToString(Object[] args) {
     return args.length == 1 ? String.valueOf(args[0]) : Arrays.toString(args);
+  }
+
+  @CheckReturnValue
+  @Nonnull
+  public static SelenideLog beginStep(@Nullable String stepName, String source, String subject) {
+    Collection<LogEventListener> listeners = getEventLoggerListeners();
+
+    SelenideLog log = new SelenideLog(stepName, source, subject);
+    for (LogEventListener listener : listeners) {
+      try {
+        listener.beforeEvent(log);
+      }
+      catch (RuntimeException e) {
+        LOG.error("Failed to call listener {}", listener, e);
+      }
+    }
+    return log;
   }
 
   @CheckReturnValue

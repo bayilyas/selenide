@@ -20,14 +20,30 @@ public class CollectionElement extends WebElementSource {
   @Nonnull
   public static SelenideElement wrap(WebElementsCollection collection, int index) {
     return (SelenideElement) Proxy.newProxyInstance(
-        collection.getClass().getClassLoader(), new Class<?>[]{SelenideElement.class},
-        new SelenideElementProxy(new CollectionElement(collection, index)));
+      collection.getClass().getClassLoader(), new Class<?>[]{SelenideElement.class},
+      new SelenideElementProxy(new CollectionElement(collection, index)));
+  }
+
+  @CheckReturnValue
+  @Nonnull
+  public static SelenideElement wrap(String stepName, WebElementsCollection collection, int index) {
+    return (SelenideElement) Proxy.newProxyInstance(
+      collection.getClass().getClassLoader(), new Class<?>[]{SelenideElement.class},
+      new SelenideElementProxy(new CollectionElement(stepName, collection, index)));
   }
 
   private final WebElementsCollection collection;
   private final int index;
+  private final String stepName;
 
   CollectionElement(WebElementsCollection collection, int index) {
+    this.stepName = null;
+    this.collection = collection;
+    this.index = index;
+  }
+
+  CollectionElement(String stepName, WebElementsCollection collection, int index) {
+    this.stepName = stepName;
     this.collection = collection;
     this.index = index;
   }
@@ -50,7 +66,12 @@ public class CollectionElement extends WebElementSource {
   @CheckReturnValue
   @Nonnull
   public String getSearchCriteria() {
-    return collection.description() + '[' + index  + ']';
+    return collection.description() + '[' + index + ']';
+  }
+
+  @Override
+  public String getStepName() {
+    return this.stepName;
   }
 
   @Override
@@ -67,6 +88,9 @@ public class CollectionElement extends WebElementSource {
   @CheckReturnValue
   @Nonnull
   public String toString() {
-    return getSearchCriteria();
+    if (this.stepName != null)
+      return String.format("\"%s\" index %d (%s)", this.stepName, index, collection.description());
+    else
+      return getSearchCriteria();
   }
 }

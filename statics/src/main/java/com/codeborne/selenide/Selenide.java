@@ -325,6 +325,13 @@ public class Selenide {
     return getSelenideDriver().find(seleniumSelector);
   }
 
+  @CheckReturnValue
+  @Nonnull
+  public static SelenideElement $(String stepName, By seleniumSelector) {
+    return getSelenideDriver().find(stepName, seleniumSelector);
+  }
+
+
   /**
    * @see #getElement(By, int)
    */
@@ -474,6 +481,10 @@ public class Selenide {
   @Nonnull
   public static ElementsCollection $$(By seleniumSelector) {
     return getSelenideDriver().$$(seleniumSelector);
+  }
+
+  public static ElementsCollection $$(String stepName, By seleniumSelector) {
+    return getSelenideDriver().$$(stepName, seleniumSelector);
   }
 
   /**

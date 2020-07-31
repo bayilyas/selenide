@@ -34,7 +34,15 @@ public class FilteringCollection implements WebElementsCollection {
   @CheckReturnValue
   @Nonnull
   public String description() {
-    return originalCollection.description() + ".filter(" + filter + ')';
+    if (originalCollection.getStepName() == null)
+      return originalCollection.description() + ".filter(" + filter + ')';
+    else
+      return String.format("\"%s\"(%s) collection filter by \"%s\"", originalCollection.getStepName(), originalCollection.description(), filter);
+  }
+
+  @Override
+  public String getStepName() {
+    return originalCollection.getStepName();
   }
 
   @Override

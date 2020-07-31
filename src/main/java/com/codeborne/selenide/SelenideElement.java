@@ -2,11 +2,7 @@ package com.codeborne.selenide;
 
 import com.codeborne.selenide.files.FileFilter;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
 
@@ -40,6 +36,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * </pre>
    *
    * @param text Any text to enter into the text field or set by value for select/radio.
+   *
    * @see com.codeborne.selenide.commands.SetValue
    */
   @Nonnull
@@ -66,6 +63,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * </pre>
    *
    * @param text Any text to append into the text field.
+   *
    * @see com.codeborne.selenide.commands.Append
    */
   @Nonnull
@@ -119,6 +117,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * NB! For "select", returns text(s) of selected option(s).
    *
    * @return The innerText of this element
+   *
    * @see com.codeborne.selenide.commands.GetText
    */
   @CheckReturnValue
@@ -162,6 +161,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Get the attribute of the element. Synonym for {@link #getAttribute(String)}
    *
    * @return null if attribute is missing
+   *
    * @see com.codeborne.selenide.commands.GetAttribute
    */
   @CheckReturnValue
@@ -172,6 +172,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Get the "name" attribute of the element
    *
    * @return attribute "name" value or null if attribute is missing
+   *
    * @see com.codeborne.selenide.commands.GetName
    */
   @CheckReturnValue
@@ -183,6 +184,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Same as {@link #getValue()}
    *
    * @return attribute "value" value or null if attribute is missing
+   *
    * @see com.codeborne.selenide.commands.Val
    */
   @CheckReturnValue
@@ -193,6 +195,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Get the "value" attribute of the element
    *
    * @return attribute "value" value or null if attribute is missing
+   *
    * @see com.codeborne.selenide.commands.GetValue
    * @since 3.1
    */
@@ -206,7 +209,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * @param pseudoElementName pseudo-element name of the element,
    *                          ":before", ":after", ":first-letter", ":first-line", ":selection"
    * @param propertyName      property name of the pseudo-element
+   *
    * @return the property value or "" if the property is missing
+   *
    * @see com.codeborne.selenide.commands.GetPseudoValue
    */
   @CheckReturnValue
@@ -217,7 +222,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Get content of the pseudo-element
    *
    * @param pseudoElementName pseudo-element name of the element, ":before", ":after"
+   *
    * @return the content value or "none" if the content is missing
+   *
    * @see com.codeborne.selenide.commands.GetPseudoValue
    */
   @CheckReturnValue
@@ -228,7 +235,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Select radio button
    *
    * @param value value of radio button to select
+   *
    * @return selected "input type=radio" element
+   *
    * @see com.codeborne.selenide.commands.SelectRadio
    */
   @Nonnull
@@ -264,6 +273,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Checks if element exists true on the current page.
    *
    * @return false if element is not found, browser is closed or any WebDriver exception happened
+   *
    * @see com.codeborne.selenide.commands.Exists
    */
   @CheckReturnValue
@@ -304,6 +314,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Set checkbox state to CHECKED or UNCHECKED.
    *
    * @param selected true for checked and false for unchecked
+   *
    * @see com.codeborne.selenide.commands.SetSelected
    */
   @Nonnull
@@ -326,6 +337,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    *
    * @return Given element, useful for chaining:
    * {@code $("#errorMessage").should(appear).shouldBe(enabled);}
+   *
    * @see com.codeborne.selenide.Config#timeout
    * @see com.codeborne.selenide.commands.Should
    */
@@ -414,6 +426,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    *
    * @param condition           e.g. enabled, visible, text() and so on
    * @param timeoutMilliseconds timeout in milliseconds.
+   *
    * @see com.codeborne.selenide.commands.ShouldBe
    */
   @Nonnull
@@ -429,6 +442,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * @param condition                   e.g. enabled, visible, text() and so on
    * @param timeoutMilliseconds         timeout in milliseconds.
    * @param pollingIntervalMilliseconds interval in milliseconds, when checking condition
+   *
    * @see com.codeborne.selenide.commands.ShouldBe
    */
   @Nonnull
@@ -443,6 +457,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    *
    * @param condition           e.g. enabled, visible, text() and so on
    * @param timeoutMilliseconds timeout in milliseconds.
+   *
    * @see com.codeborne.selenide.commands.ShouldNotBe
    */
   @Nonnull
@@ -458,6 +473,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * @param condition                   e.g. enabled, visible, text() and so on
    * @param timeoutMilliseconds         timeout in milliseconds.
    * @param pollingIntervalMilliseconds interval in milliseconds, when checking condition
+   *
    * @see com.codeborne.selenide.commands.ShouldNotBe
    */
   @Nonnull
@@ -470,6 +486,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Not recommended to use for test verifications.
    *
    * @return e.g. <strong id=orderConfirmedStatus class=>Order has been confirmed</strong>
+   *
    * @see com.codeborne.selenide.commands.ToString
    */
   @Override
@@ -483,6 +500,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * For example, $("td").parent() could give some "tr".
    *
    * @return Parent element
+   *
    * @see com.codeborne.selenide.commands.GetParent
    */
   @CheckReturnValue
@@ -495,7 +513,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * For example, $("td").sibling(0) will give the first following sibling element of "td"
    *
    * @param index the index of sibling element
+   *
    * @return Sibling element by index
+   *
    * @see com.codeborne.selenide.commands.GetSibling
    */
   @CheckReturnValue
@@ -508,7 +528,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * For example, $("td").preceding(0) will give the first preceding sibling element of "td"
    *
    * @param index the index of sibling element
+   *
    * @return Sibling element by index
+   *
    * @see com.codeborne.selenide.commands.GetPreceding
    */
   @CheckReturnValue
@@ -530,7 +552,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * For example, $("td").closest("table") could give some "table".
    *
    * @param tagOrClass Either HTML tag or CSS class. E.g. "form" or ".active".
+   *
    * @return Matching ancestor element
+   *
    * @see com.codeborne.selenide.commands.GetClosest
    */
   @CheckReturnValue
@@ -648,6 +672,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * </p>
    *
    * @return list of elements inside given element matching given CSS selector
+   *
    * @see com.codeborne.selenide.commands.FindAll
    */
   @CheckReturnValue
@@ -664,6 +689,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * </p>
    *
    * @return list of elements inside given element matching given criteria
+   *
    * @see com.codeborne.selenide.commands.FindAll
    */
   @CheckReturnValue
@@ -685,6 +711,8 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
   @Nonnull
   ElementsCollection $$(By selector);
 
+  ElementsCollection $$(String stepName, By selector);
+
   /**
    * <p>
    * Short form of {@code webDriver.findElements(thisElement, By.xpath(xpath))}
@@ -695,6 +723,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * </p>
    *
    * @return list of elements inside given element matching given xpath locator
+   *
    * @see com.codeborne.selenide.commands.FindAllByXpath
    */
   @CheckReturnValue
@@ -707,7 +736,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * <p>Multiple file upload is also supported. Just pass as many file names as you wish.</p>
    *
    * @param fileName name of the file or the relative path in classpath e.g. "files/1.pfd"
+   *
    * @return the object of the first file uploaded
+   *
    * @throws IllegalArgumentException if any of the files is not found
    * @see com.codeborne.selenide.commands.UploadFileFromClasspath
    */
@@ -721,7 +752,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * <p>Multiple file upload is also supported. Just pass as many files as you wish.</p>
    *
    * @param file file object(s)
+   *
    * @return the object of the first file uploaded
+   *
    * @throws IllegalArgumentException if any of the files is not found, or other errors
    * @see com.codeborne.selenide.commands.UploadFile
    */
@@ -733,6 +766,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Select an option from dropdown list (by index)
    *
    * @param index 0..N (0 means first option)
+   *
    * @see com.codeborne.selenide.commands.SelectOptionByTextOrIndex
    */
   void selectOption(int... index);
@@ -741,6 +775,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Select an option from dropdown list (by text)
    *
    * @param text visible text of option
+   *
    * @see com.codeborne.selenide.commands.SelectOptionByTextOrIndex
    */
   void selectOption(String... text);
@@ -749,6 +784,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Select an option from dropdown list that contains given text
    *
    * @param text substring of visible text of option
+   *
    * @see com.codeborne.selenide.commands.SelectOptionContainingText
    */
   void selectOptionContainingText(String text);
@@ -757,6 +793,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Select an option from dropdown list (by value)
    *
    * @param value "value" attribute of option
+   *
    * @see com.codeborne.selenide.commands.SelectOptionByValue
    */
   void selectOptionByValue(String... value);
@@ -765,6 +802,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Find (first) selected option from this select field
    *
    * @return WebElement for selected &lt;option&gt; element
+   *
    * @throws NoSuchElementException if no options are selected
    * @see com.codeborne.selenide.commands.GetSelectedOption
    */
@@ -776,6 +814,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Find all selected options from this select field
    *
    * @return ElementsCollection for selected &lt;option&gt; elements (empty list if no options are selected)
+   *
    * @see com.codeborne.selenide.commands.GetSelectedOptions
    */
   @CheckReturnValue
@@ -785,8 +824,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
   /**
    * Get value of selected option in select field
    *
-   * @see com.codeborne.selenide.commands.GetSelectedValue
    * @return null if the selected option doesn't have "value" attribute
+   *
+   * @see com.codeborne.selenide.commands.GetSelectedValue
    */
   @CheckReturnValue
   @Nullable
@@ -826,6 +866,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * </pre>
    *
    * @param alignToTop boolean value that indicate how element will be aligned to the visible area of the scrollable ancestor.
+   *
    * @see com.codeborne.selenide.commands.ScrollIntoView
    * @see <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView">Web API reference</a>
    */
@@ -860,6 +901,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * </pre>
    *
    * @param scrollIntoViewOptions is an object with the align properties: behavior, block and inline.
+   *
    * @see com.codeborne.selenide.commands.ScrollIntoView
    * @see <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView">Web API reference</a>
    */
@@ -883,6 +925,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Download file by clicking this element. Algorithm depends on {@code @{@link Config#fileDownload() }}.
    *
    * @param timeout download operations timeout.
+   *
    * @throws RuntimeException      if 50x status code was returned from server
    * @throws FileNotFoundException if 40x status code was returned from server
    * @see com.codeborne.selenide.commands.DownloadFile
@@ -899,6 +942,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    *                   {@link com.codeborne.selenide.files.FileFilters#withNameMatching(String)},
    *                   {@link com.codeborne.selenide.files.FileFilters#withName(String)}
    *                   ).
+   *
    * @throws RuntimeException      if 50x status code was returned from server
    * @throws FileNotFoundException if 40x status code was returned from server, or the downloaded file didn't match given filter.
    * @see com.codeborne.selenide.files.FileFilters
@@ -917,6 +961,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    *                   {@link com.codeborne.selenide.files.FileFilters#withNameMatching(String)},
    *                   {@link com.codeborne.selenide.files.FileFilters#withName(String)}
    *                   ).
+   *
    * @throws RuntimeException      if 50x status code was returned from server
    * @throws FileNotFoundException if 40x status code was returned from server, or the downloaded file didn't match given filter.
    * @see com.codeborne.selenide.files.FileFilters
@@ -937,6 +982,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
 
   /**
    * @return the original Selenium {@link WebElement} wrapped by this object
+   *
    * @throws org.openqa.selenium.NoSuchElementException if element does not exist (without waiting for the element)
    * @see com.codeborne.selenide.commands.ToWebElement
    */
@@ -946,6 +992,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
 
   /**
    * @return Underlying {@link WebElement}
+   *
    * @throws com.codeborne.selenide.ex.ElementNotFound if element does not exist (after waiting for N seconds)
    * @see com.codeborne.selenide.commands.GetWrappedElement
    */
@@ -979,6 +1026,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Click with right mouse button on this element
    *
    * @return this element
+   *
    * @see com.codeborne.selenide.commands.ContextClick
    */
   @Nonnull
@@ -989,6 +1037,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Double click the element
    *
    * @return this element
+   *
    * @see com.codeborne.selenide.commands.DoubleClick
    */
   @Nonnull
@@ -999,6 +1048,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Emulate "mouseOver" event. In other words, move mouse cursor over this element (without clicking it).
    *
    * @return this element
+   *
    * @see com.codeborne.selenide.commands.Hover
    */
   @Nonnull
@@ -1011,7 +1061,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Before dropping, waits until target element gets visible.
    *
    * @param targetCssSelector CSS selector defining target element
+   *
    * @return this element
+   *
    * @see com.codeborne.selenide.commands.DragAndDropTo
    */
   @Nonnull
@@ -1024,7 +1076,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Before dropping, waits until target element gets visible.
    *
    * @param target target element
+   *
    * @return this element
+   *
    * @see com.codeborne.selenide.commands.DragAndDropTo
    */
   @Nonnull
@@ -1035,7 +1089,9 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Execute custom implemented command
    *
    * @param command custom command
+   *
    * @return whatever the command returns (incl. null)
+   *
    * @see com.codeborne.selenide.commands.Execute
    * @see com.codeborne.selenide.Command
    */
@@ -1055,6 +1111,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    *
    * @return file with screenshot (*.png)
    * or null if Selenide failed to take a screenshot (due to some technical problem)
+   *
    * @see com.codeborne.selenide.commands.TakeScreenshot
    */
   @CheckReturnValue
@@ -1065,6 +1122,7 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
    * Take screenshot of this element
    *
    * @return buffered image with screenshot
+   *
    * @see com.codeborne.selenide.commands.TakeScreenshotAsImage
    */
   @CheckReturnValue

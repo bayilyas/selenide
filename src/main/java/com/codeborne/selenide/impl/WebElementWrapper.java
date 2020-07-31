@@ -42,6 +42,11 @@ public class WebElementWrapper extends WebElementSource {
   }
 
   @Override
+  public String getStepName() {
+    return null;
+  }
+
+  @Override
   @CheckReturnValue
   @Nonnull
   public String toString() {

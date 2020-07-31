@@ -256,6 +256,12 @@ public class SelenideDriver {
 
   @CheckReturnValue
   @Nonnull
+  public SelenideElement $(String stepName, By seleniumSelector) {
+    return find(stepName, seleniumSelector);
+  }
+
+  @CheckReturnValue
+  @Nonnull
   public SelenideElement $(By seleniumSelector, int index) {
     return find(seleniumSelector, index);
   }
@@ -276,6 +282,11 @@ public class SelenideDriver {
   @Nonnull
   public SelenideElement find(By criteria, int index) {
     return ElementFinder.wrap(driver(), null, criteria, index);
+  }
+
+  @CheckReturnValue
+  public SelenideElement find(String stepName, By criteria) {
+    return ElementFinder.wrap(stepName, driver(), null, criteria, 0);
   }
 
   @CheckReturnValue
@@ -302,6 +313,10 @@ public class SelenideDriver {
     return new ElementsCollection(driver(), seleniumSelector);
   }
 
+  public ElementsCollection findAll(String stepName, By seleniumSelector) {
+    return new ElementsCollection(stepName, driver(), seleniumSelector);
+  }
+
   @CheckReturnValue
   @Nonnull
   public ElementsCollection findAll(String cssSelector) {
@@ -312,6 +327,10 @@ public class SelenideDriver {
   @Nonnull
   public ElementsCollection $$(By criteria) {
     return findAll(criteria);
+  }
+
+  public ElementsCollection $$(String stepName, By criteria) {
+    return findAll(stepName, criteria);
   }
 
   @CheckReturnValue

@@ -18,12 +18,25 @@ public class BySelectorCollection implements WebElementsCollection {
   private final Driver driver;
   private final SearchContext parent;
   private final By selector;
+  private final String stepName;
 
   public BySelectorCollection(Driver driver, By selector) {
     this(driver, null, selector);
   }
 
+  public BySelectorCollection(String stepName, Driver driver, By selector) {
+    this(stepName, driver, null, selector);
+  }
+
   public BySelectorCollection(Driver driver, @Nullable SearchContext parent, By selector) {
+    this.stepName = null;
+    this.driver = driver;
+    this.parent = parent;
+    this.selector = selector;
+  }
+
+  public BySelectorCollection(String stepName, Driver driver, @Nullable SearchContext parent, By selector) {
+    this.stepName = stepName;
     this.driver = driver;
     this.parent = parent;
     this.selector = selector;
@@ -35,6 +48,10 @@ public class BySelectorCollection implements WebElementsCollection {
   public List<WebElement> getElements() {
     SearchContext searchContext = parent == null ? driver.getWebDriver() : parent;
     return WebElementSelector.instance.findElements(driver, searchContext, selector);
+  }
+
+  public String getStepName() {
+    return stepName;
   }
 
   @Override

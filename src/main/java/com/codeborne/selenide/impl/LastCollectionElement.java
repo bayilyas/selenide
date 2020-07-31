@@ -54,6 +54,11 @@ public class LastCollectionElement extends WebElementSource {
   }
 
   @Override
+  public String getStepName() {
+    return collection.getStepName();
+  }
+
+  @Override
   @CheckReturnValue
   @Nonnull
   public ElementNotFound createElementNotFoundError(Condition condition, Throwable lastError) {

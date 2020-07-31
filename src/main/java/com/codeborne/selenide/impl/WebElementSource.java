@@ -16,11 +16,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.cssValue;
-import static com.codeborne.selenide.Condition.have;
-import static com.codeborne.selenide.Condition.not;
-import static com.codeborne.selenide.Condition.or;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static java.util.Collections.singletonList;
 import static java.util.Objects.requireNonNull;
 
@@ -37,6 +33,8 @@ public abstract class WebElementSource {
   @CheckReturnValue
   @Nonnull
   public abstract String getSearchCriteria();
+
+  public abstract String getStepName();
 
   @CheckReturnValue
   @Nonnull
@@ -73,8 +71,7 @@ public abstract class WebElementSource {
       if (check.apply(driver(), element)) {
         return element;
       }
-    }
-    catch (WebDriverException | IndexOutOfBoundsException | AssertionError e) {
+    } catch (WebDriverException | IndexOutOfBoundsException | AssertionError e) {
       lastError = e;
     }
 
@@ -86,11 +83,9 @@ public abstract class WebElementSource {
       if (!check.applyNull()) {
         throw createElementNotFoundError(check, lastError);
       }
-    }
-    else if (invert) {
+    } else if (invert) {
       throw new ElementShouldNot(driver(), getSearchCriteria(), prefix, condition, element, lastError);
-    }
-    else {
+    } else {
       throw new ElementShould(driver(), getSearchCriteria(), prefix, condition, element, lastError);
     }
     return null;
@@ -98,7 +93,7 @@ public abstract class WebElementSource {
 
   /**
    * Asserts that returned element can be interacted with.
-   *
+   * <p>
    * Elements which are transparent (opacity:0) are considered to be invisible, but interactable.
    * User (as of 05.12.2018) can click, doubleClick etc., and enter text etc. to transparent elements
    * for all major browsers

@@ -34,6 +34,11 @@ public class TailOfCollection implements WebElementsCollection {
   }
 
   @Override
+  public String getStepName() {
+    return originalCollection.getStepName();
+  }
+
+  @Override
   @CheckReturnValue
   @Nonnull
   public Driver driver() {

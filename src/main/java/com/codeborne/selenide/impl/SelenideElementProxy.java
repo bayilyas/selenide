@@ -33,20 +33,20 @@ import static java.util.Arrays.asList;
 @ParametersAreNonnullByDefault
 class SelenideElementProxy implements InvocationHandler {
   private static final Set<String> methodsToSkipLogging = new HashSet<>(asList(
-      "toWebElement",
-      "toString",
-      "getSearchCriteria"
+    "toWebElement",
+    "toString",
+    "getSearchCriteria"
   ));
 
   private static final Set<String> methodsForSoftAssertion = new HashSet<>(asList(
-      "should",
-      "shouldBe",
-      "shouldHave",
-      "shouldNot",
-      "shouldNotHave",
-      "shouldNotBe",
-      "waitUntil",
-      "waitWhile"
+    "should",
+    "shouldBe",
+    "shouldHave",
+    "shouldNot",
+    "shouldNotHave",
+    "shouldNotBe",
+    "waitUntil",
+    "waitWhile"
   ));
 
   private final WebElementSource webElementSource;
@@ -65,21 +65,24 @@ class SelenideElementProxy implements InvocationHandler {
 
     long timeoutMs = getTimeoutMs(method, arguments);
     long pollingIntervalMs = getPollingIntervalMs(method, arguments);
-    SelenideLog log = SelenideLogger.beginStep(webElementSource.getSearchCriteria(), method.getName(), args);
+    SelenideLog log = SelenideLogger.beginStep(webElementSource.getStepName(), webElementSource.getSearchCriteria(), method.getName(), args);
     try {
+      //$().$(StepName) cause an issue in commands arguments
+      //if (webElementSource.getStepName() != null && args != null) {
+      //  args = Arrays.stream(args).filter(e -> !e.equals(webElementSource.getStepName())).toArray(Object[]::new);
+      //}
+
       Object result = dispatchAndRetry(timeoutMs, pollingIntervalMs, proxy, method, args);
       SelenideLogger.commitStep(log, PASS);
       return result;
-    }
-    catch (Error error) {
+    } catch (Error error) {
       Error wrappedError = UIAssertionError.wrap(driver(), error, timeoutMs);
       SelenideLogger.commitStep(log, wrappedError);
       if (config().assertionMode() == SOFT && methodsForSoftAssertion.contains(method.getName()))
         return proxy;
       else
         throw wrappedError;
-    }
-    catch (RuntimeException error) {
+    } catch (RuntimeException error) {
       SelenideLogger.commitStep(log, error);
       throw error;
     }
@@ -105,18 +108,15 @@ class SelenideElementProxy implements InvocationHandler {
         }
 
         return method.invoke(webElementSource.getWebElement(), args);
-      }
-      catch (InvocationTargetException e) {
+      } catch (InvocationTargetException e) {
         lastError = e.getTargetException();
-      }
-      catch (WebDriverException | IndexOutOfBoundsException | AssertionError e) {
+      } catch (WebDriverException | IndexOutOfBoundsException | AssertionError e) {
         lastError = e;
       }
 
       if (Cleanup.of.isInvalidSelectorError(lastError)) {
         throw Cleanup.of.wrap(lastError);
-      }
-      else if (!shouldRetryAfterError(lastError)) {
+      } else if (!shouldRetryAfterError(lastError)) {
         throw lastError;
       }
       stopwatch.sleep(pollingIntervalMs);
@@ -125,14 +125,11 @@ class SelenideElementProxy implements InvocationHandler {
 
     if (lastError instanceof UIAssertionError) {
       throw lastError;
-    }
-    else if (lastError instanceof InvalidElementStateException) {
+    } else if (lastError instanceof InvalidElementStateException) {
       throw new InvalidStateException(driver(), lastError);
-    }
-    else if (isElementNotClickableException(lastError)) {
+    } else if (isElementNotClickableException(lastError)) {
       throw new ElementIsNotClickableException(driver(), lastError);
-    }
-    else if (lastError instanceof WebDriverException) {
+    } else if (lastError instanceof WebDriverException) {
       throw webElementSource.createElementNotFoundError(exist, lastError);
     }
     throw lastError;

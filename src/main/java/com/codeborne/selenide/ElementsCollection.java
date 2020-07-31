@@ -41,13 +41,19 @@ import static java.util.stream.Collectors.toList;
 @ParametersAreNonnullByDefault
 public class ElementsCollection extends AbstractList<SelenideElement> {
   private final WebElementsCollection collection;
+  private final String stepName;
 
   public ElementsCollection(WebElementsCollection collection) {
     this.collection = collection;
+    this.stepName = collection.getStepName();
   }
 
   public ElementsCollection(Driver driver, Collection<? extends WebElement> elements) {
     this(new WebElementsCollectionWrapper(driver, elements));
+  }
+
+  public ElementsCollection(String stepName, Driver driver, Collection<? extends WebElement> elements) {
+    this(new WebElementsCollectionWrapper(stepName, driver, elements));
   }
 
   public ElementsCollection(Driver driver, String cssSelector) {
@@ -56,6 +62,10 @@ public class ElementsCollection extends AbstractList<SelenideElement> {
 
   public ElementsCollection(Driver driver, By seleniumSelector) {
     this(new BySelectorCollection(driver, seleniumSelector));
+  }
+
+  public ElementsCollection(String stepName, Driver driver, By seleniumSelector) {
+    this(new BySelectorCollection(stepName, driver, seleniumSelector));
   }
 
   public ElementsCollection(Driver driver, WebElement parent, String cssSelector) {
@@ -321,7 +331,7 @@ public class ElementsCollection extends AbstractList<SelenideElement> {
    */
   @Override
   public SelenideElement get(int index) {
-    return CollectionElement.wrap(collection, index);
+    return CollectionElement.wrap(this.stepName, collection, index);
   }
 
   /**

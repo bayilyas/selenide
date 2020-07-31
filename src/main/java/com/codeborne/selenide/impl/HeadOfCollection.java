@@ -39,4 +39,9 @@ public class HeadOfCollection implements WebElementsCollection {
   public String description() {
     return originalCollection.description() + ".first(" + size + ')';
   }
+
+  @Override
+  public String getStepName() {
+    return originalCollection.getStepName();
+  }
 }

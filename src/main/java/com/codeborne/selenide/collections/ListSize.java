@@ -37,7 +37,7 @@ public class ListSize extends CollectionCondition {
 
   @Override
   public String toString() {
-    return String.format("size(%s)", expectedSize);
+    return String.format("size %s", expectedSize);
   }
 
   private boolean apply(int size) {
