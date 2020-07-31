@@ -77,10 +77,16 @@ public class SelenideLog implements LogEvent {
   @Override
   @Nonnull
   public String toString() {
-    if (this.stepName == null)
+    if (this.stepName == null) {
       //return String.format("$(\"%s\") %s", element, subject);
       return String.format("%s %s", element, subject);
-    else
-      return String.format("%s %s, locator: %s", this.stepName, subject, element);
+    } else {
+      String s = subject;
+      if (subject.contains("send keys")) {
+        s = subject.replace("send keys", "").trim();
+        s = subject.replace(s, '\'' + s + '\'');
+      }
+      return String.format("%s %s, locator: %s", this.stepName, s, element);
+    }
   }
 }
