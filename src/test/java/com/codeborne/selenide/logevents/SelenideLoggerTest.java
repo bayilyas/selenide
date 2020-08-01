@@ -72,7 +72,7 @@ class SelenideLoggerTest implements WithAssertions {
     when(webdriver.findElement(By.cssSelector("div"))).thenReturn(webElement);
     when(webElement.isDisplayed()).thenReturn(true);
 
-    SelenideLogger.commitStep(SelenideLogger.beginStep("div", "click", null), PASS);
+    SelenideLogger.commitStep(SelenideLogger.beginStep("div", "click", (Object) null), PASS);
 
     verifyEvent(listener1, "div", "click()", PASS);
     verifyEvent(listener2, "div", "click()", PASS);
@@ -84,7 +84,7 @@ class SelenideLoggerTest implements WithAssertions {
     SelenideLogger.removeListener("simpleReport");
     SelenideLogger.removeListener("softAsserts");
 
-    SelenideLogger.commitStep(SelenideLogger.beginStep("div", "click", null), PASS);
+    SelenideLogger.commitStep(SelenideLogger.beginStep("div", "click", (Object) null), PASS);
     verifyEvent(listener3, "div", "click()", PASS);
 
     verifyNoMoreInteractions(listener1, listener2, listener3);

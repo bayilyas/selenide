@@ -10,9 +10,9 @@ plugins {
   id 'org.sonarqube' version '3.0'
 }
 
-group = 'cci'
-archivesBaseName = 'selenide-steps'
-version = '5.14.0-SNAPSHOT'
+group = 'com.codeborne'
+archivesBaseName = 'selenide'
+version = '5.13.1'
 
 ext {
   encoding = StandardCharsets.UTF_8.name()
@@ -30,7 +30,7 @@ defaultTasks 'install'
 
 apply from: rootProject.file('gradle/source-sets.gradle')
 apply from: rootProject.file('gradle/dependencies.gradle')
-//apply from: rootProject.file('gradle/code-analysis.gradle')
-//apply from: rootProject.file('gradle/coverage.gradle')
-//apply from: rootProject.file('gradle/tests.gradle')
+apply from: rootProject.file('gradle/code-analysis.gradle')
+apply from: rootProject.file('gradle/coverage.gradle')
+apply from: rootProject.file('gradle/tests.gradle')
 apply from: rootProject.file('gradle/deploy-locally.gradle')
