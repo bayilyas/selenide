@@ -631,6 +631,10 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
   @Nonnull
   SelenideElement $(By selector);
 
+  @CheckReturnValue
+  @Nonnull
+  SelenideElement $(String stepName, By selector);
+
   /**
    * ATTENTION! This method doesn't start any search yet!
    * Same as {@link #find(String, int)}
@@ -640,6 +644,10 @@ public interface SelenideElement extends WebElement, WrapsDriver, WrapsElement, 
   @CheckReturnValue
   @Nonnull
   SelenideElement $(By selector, int index);
+
+  @CheckReturnValue
+  @Nonnull
+  SelenideElement $(String stepName, By selector, int index);
 
   /**
    * <p>Locates the first matching element inside given element using xpath locator</p>
