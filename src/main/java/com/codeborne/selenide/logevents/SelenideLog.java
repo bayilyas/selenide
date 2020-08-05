@@ -86,7 +86,7 @@ public class SelenideLog implements LogEvent {
         s = subject.replace("send keys", "").trim();
         s = subject.replace(s, '\'' + s + '\'');
       }
-      return String.format("%s %s, locator: %s", this.stepName, s, element);
+      return String.format("%s %s", this.stepName, s);
     }
   }
 }
